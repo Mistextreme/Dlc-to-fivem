@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mist</title>
+    <title>MIST</title>
     <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
     <style>
         body {
@@ -19,8 +19,8 @@
             to { opacity: 1; }
         }
         h1 {
-            color: #007bff;
-            animation: bounce 1.5s infinite, rgbText 3s infinite;
+            color: #ffcc00;
+            animation: bounce 1.5s infinite;
         }
         @keyframes bounce {
             0%, 100% { transform: translateY(0); }
@@ -43,7 +43,7 @@
             width: 100%;
             padding: 10px;
             margin: 10px 0;
-            border: 1px solid #007bff;
+            border: 1px solid #ffcc00;
             background: #222;
             color: white;
             border-radius: 5px;
@@ -52,7 +52,7 @@
         .downloadFiveM {
             width: 100%;
             padding: 12px;
-            background-color: #007bff;
+            background-color: #ffcc00;
             color: black;
             border: none;
             cursor: pointer;
@@ -63,11 +63,9 @@
             animation: pulse 2s infinite;
         }
         @keyframes pulse {
-            0% { box-shadow: 0 0 10px rgba(255, 0, 0, 0.5); }  /* Vermelho */
-            25% { box-shadow: 0 0 20px rgba(0, 255, 0, 0.8); }  /* Verde */
-            50% { box-shadow: 0 0 20px rgba(0, 0, 255, 1); }   /* Azul */
-            75% { box-shadow: 0 0 20px rgba(255, 0, 255, 0.8); }  /* Magenta */
-            100% { box-shadow: 0 0 10px rgba(255, 0, 0, 0.5); }  /* Volta para vermelho */
+            0% { box-shadow: 0 0 10px rgba(255, 204, 0, 0.5); }
+            50% { box-shadow: 0 0 20px rgba(255, 204, 0, 1); }
+            100% { box-shadow: 0 0 10px rgba(255, 204, 0, 0.5); }
         }
         .downloadFiveM:hover {
             background-color: #e6b800;
@@ -98,12 +96,6 @@
             66% { color: blue; }
             100% { color: red; }
         }
-        .logo-animation {
-            width: 200px;
-            height: auto;
-            margin: 0 auto 15px auto;
-            display: block;
-        }
     </style>
     <script>
         document.addEventListener("contextmenu", function(event) {
@@ -123,8 +115,7 @@
 </head>
 <body>
     <div class="container">
-        <img src="https://i.ibb.co/271ByRz/mist-intro.gif" alt="Mist Animation" class="logo-animation">
-        <h1>Dlc extract</h1>
+        <h1>Mist</h1>
         <input type="text" id="modUrl" placeholder="Enter mod URL">
         <button class="downloadFiveM"><i class='fa fa-download'></i>&nbsp;&nbsp;Convert and Download</button>
         <p id="status"></p>
@@ -173,7 +164,7 @@
         })();
     </script>
     <footer>
-        <p>&copy; Mist aka The GOAT MAN</p>
+        <p>&copy; Mist 🐐</p>
     </footer>
 </body>
 </html>
