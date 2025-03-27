@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mist</title>
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+    <style>
+        body {
+            background-color: #121212;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        h1 {
+            color: #007bff;
+            animation: bounce 1.5s infinite, rgbText 3s infinite;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .container {
+            max-width: 500px;
+            margin: auto;
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.2);
+            animation: slideUp 0.7s ease-in-out;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #007bff;
+            background: #222;
+            color: white;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .downloadFiveM {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: black;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: 0.3s;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 10px rgba(255, 0, 0, 0.5); }  /* Vermelho */
+            25% { box-shadow: 0 0 20px rgba(0, 255, 0, 0.8); }  /* Verde */
+            50% { box-shadow: 0 0 20px rgba(0, 0, 255, 1); }   /* Azul */
+            75% { box-shadow: 0 0 20px rgba(255, 0, 255, 0.8); }  /* Magenta */
+            100% { box-shadow: 0 0 10px rgba(255, 0, 0, 0.5); }  /* Volta para vermelho */
+        }
+        .downloadFiveM:hover {
+            background-color: #e6b800;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #444;
+            border-radius: 5px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        .progress {
+            height: 100%;
+            width: 0;
+            background: #ffcc00;
+            transition: width 0.5s ease-in-out;
+        }
+        footer p {
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            animation: rgbText 3s infinite;
+        }
+        @keyframes rgbText {
+            0% { color: red; }
+            33% { color: green; }
+            66% { color: blue; }
+            100% { color: red; }
+        }
+        .logo-animation {
+            width: 200px;
+            height: auto;
+            margin: 0 auto 15px auto;
+            display: block;
+        }
+    </style>
+    <script>
+        document.addEventListener("contextmenu", function(event) {
+            event.preventDefault();
+        });
+        document.addEventListener("keydown", function(event) {
+            if (event.keyCode == 123 || (event.ctrlKey && event.shiftKey && event.keyCode == 73) || (event.ctrlKey && event.keyCode == 85) || (event.ctrlKey && event.keyCode == 83)) {
+                event.preventDefault();
+            }
+        });
+        (function() {
+            console.log = function() {};
+            console.warn = function() {};
+            console.error = function() {};
+        })();
+    </script>
+</head>
+<body>
+    <div class="container">
+        <img src="https://i.ibb.co/271ByRz/mist-intro.gif" alt="Mist Animation" class="logo-animation">
+        <h1>Dlc extract</h1>
+        <input type="text" id="modUrl" placeholder="Enter mod URL">
+        <button class="downloadFiveM"><i class='fa fa-download'></i>&nbsp;&nbsp;Convert and Download</button>
+        <p id="status"></p>
+        <div class="progress-bar"><div class="progress"></div></div>
+    </div>
+    <script>
+        (function() {
+            'use strict';
+            var postURL = "https://gta5mods.hk416.org/en";
+            var downloadTriggered = false;
+            var interval;
+            function checkStatus(taskId) {
+                interval = setInterval(function() {
+                    $.post(postURL, { uuid: taskId, lang: "en_US" }, function(response) {
+                        try {
+                            var json = JSON.parse(response);
+                            $("#status").html(json.message);
+                            if(json.status == 200 && !downloadTriggered) {
+                                downloadTriggered = true;
+                                window.location = "https://gta5mods.hk416.org/" + json.message.file;
+                                clearInterval(interval);
+                                setTimeout(function() { location.reload(); }, 3000);
+                            }
+                        } catch(e) {}
+                    });
+                }, 5000);
+            }
+            $(".downloadFiveM").click(function() {
+                var url = $("#modUrl").val();
+                if (!url) {
+                    $("#status").html("<i class='fa fa-close'></i>&nbsp;Please enter a URL!");
+                    return;
+                }
+                $.post(postURL, { url: url }, function(response) {
+                    try {
+                        var json = JSON.parse(response);
+                        $("#status").html(json.message);
+                        if(json.status == 200) {
+                            checkStatus(json.message);
+                        }
+                    } catch(e) {
+                        $("#status").html("<i class='fa fa-close'></i>&nbsp;Failed to submit the task!");
+                    }
+                });
+            });
+        })();
+    </script>
+    <footer>
+        <p>&copy; Mist aka The GOAT MAN</p>
+    </footer>
+</body>
+</html>
